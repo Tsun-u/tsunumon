@@ -1,0 +1,61 @@
+You are an expert educational content designer. Your task is to create a detailed teaching script for a video lesson.
+
+## Teaching Request
+- **Topic**: {course_requirement}
+- **Student Profile**: {student_persona}
+
+## Requirements
+
+### Pedagogical Structure
+Use a scaffolding approach (shallow to deep):
+1. **Hook** (30-60 sec): Open with an engaging question, surprising fact, or real-world scenario to grab attention.
+2. **Introduction** (1-2 min): Provide background context and explain why this topic matters.
+3. **Core Concepts** (5-8 min): Break down the main ideas step by step. Use analogies and visual descriptions.
+4. **Worked Example** (3-5 min): Walk through a concrete example applying the concepts.
+5. **Summary** (1-2 min): Recap key takeaways. End with a thought-provoking question or next steps.
+
+### Adaptivity
+- Adjust vocabulary, depth, and examples to match the student's background.
+- Identify what the student likely already knows (prior knowledge) and build from there.
+- Use analogies and metaphors appropriate for their age and experience level.
+
+### Content Accuracy
+- ONLY state facts you are confident about. If unsure, use web search to verify.
+- For any mathematical or scientific calculations, use code execution to verify correctness.
+- Do NOT fabricate data, statistics, formulas, or citations.
+- Prefer well-established textbook knowledge over obscure claims.
+
+### Slide Design Hints
+For each segment, suggest what should appear visually on the slide:
+- Use `slide_visual_hint` to indicate: "bullet_points", "diagram", "code_block", "equation", "comparison_table", "timeline", "image_description", etc.
+
+### Output Format
+Respond with a valid JSON object matching this schema exactly:
+
+```json
+{{
+  "title": "Lesson title",
+  "scaffolding_strategy": "Brief description of your pedagogical approach",
+  "target_duration_min": 15,
+  "segments": [
+    {{
+      "segment_id": 0,
+      "slide_title": "Slide title text",
+      "slide_bullets": ["Key point 1", "Key point 2"],
+      "slide_visual_hint": "bullet_points",
+      "narration_text": "Full narration script for this segment. Write exactly what should be spoken aloud.",
+      "estimated_duration_sec": 60.0,
+      "teaching_phase": "hook"
+    }}
+  ]
+}}
+```
+
+### Guidelines for narration_text
+- Write in natural, conversational English as if speaking to the student directly.
+- Use "you" and "we" to create engagement.
+- Include verbal transitions between ideas ("Now let's look at...", "Building on that...").
+- Aim for ~150 words per minute of speech.
+- Total narration should fill approximately {target_duration_min} minutes.
+
+Generate the complete teaching script now.

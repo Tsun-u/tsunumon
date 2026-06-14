@@ -1,0 +1,32 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Output / media (generated at runtime)
+output/
+*.mp4
+*.wav
+*.mp3
+*.png
+!app/services/slides/assets/**/*.png
+!assets/mascot/*.png
+
+# TTS models — download separately, see README
+# 根錨定：只排除 repo 根目錄的 TTS 模型，不要誤殺 app/models/ 原始碼
+/models/
+
+# IDE
+.vscode/
+.idea/
+*.swp

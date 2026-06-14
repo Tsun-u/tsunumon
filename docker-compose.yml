@@ -1,0 +1,15 @@
+services:
+  tsunumon:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - OUTPUT_DIR=/app/output
+      - FFMPEG_PATH=ffmpeg
+    volumes:
+      # 把 output 掛出來，方便本地檢查產出的影片
+      - ./output:/app/output
+    # 長連線需要足夠的 timeout
+    stop_grace_period: 35m

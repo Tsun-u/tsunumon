@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.ruff_cache
+
+# 開發用
+.env
+.venv
+venv
+tests/
+tmp_poc/
+tmp_poc_html/
+tmp_test_slides/
+
+# 輸出（不打包進 image）
+output/
+
+# IDE
+.vscode
+.idea
+*.swp

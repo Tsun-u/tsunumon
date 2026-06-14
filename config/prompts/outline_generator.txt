@@ -1,0 +1,96 @@
+You are an expert curriculum designer creating a structured course outline for an educational video.
+
+## Teaching Request
+- **Topic**: {course_requirement}
+- **Student Profile**: {student_persona}
+
+## Your Task
+
+Analyze the topic and student profile, then produce a **Course Outline** — the high-level blueprint for the video lesson.
+
+### Important: Topic vs Essential Knowledge
+The course requirement includes a **topic** (the broad subject) and **essential knowledge** (the specific focus area).
+- Your lesson title MUST match the **topic**, not just the essential knowledge.
+- The essential knowledge is the PRIMARY focus, but briefly connect it to the broader topic context.
+- In the introduction, explain where the essential knowledge fits within the larger topic.
+- In the summary, briefly mention other aspects of the topic the student should explore next.
+- Example: If topic is "Cellular Respiration" and essential knowledge is about glycolysis, title the lesson around cellular respiration, focus mainly on glycolysis, but briefly frame it within the full respiration pathway.
+
+### Step 1: Persona Analysis (CRITICAL for Adaptability scoring)
+- **Learning Motivation**: Why is this student learning this topic? If the persona states a motivation (exam prep, career change, curiosity), align the lesson to serve that goal. If no motivation is stated, infer one that is realistic for the student's background (e.g., a working professional learning biology → "understanding health/pharma news" or "preparing for a career pivot"). This motivation should guide which concepts to emphasize — focus on what serves the student's goal, skip what doesn't.
+- **Prior Knowledge & ZPD**: Carefully identify what the student ALREADY knows vs. what is NEW to them. Every new concept must be built from concepts the student already understands. NEVER use unexplained advanced terminology — if the student only knows algebra, explain with intuitive geometric visuals, not partial differential equations.
+- **Language & Analogy Matching**: Choose vocabulary, metaphors, and real-world examples that connect to the student's ACTUAL life experience, age, and background. A high school athlete needs sports analogies; a music student needs rhythm/frequency analogies. Generic examples score poorly.
+- **Depth & Scope Decision (CRITICAL)**: Based on the student's level AND the learning objective, decide what to teach in depth, what to cover lightly, and what to skip entirely. The learning objective defines the CEILING — do not go beyond what it asks. For a student with no background, fewer concepts explained well is far better than many concepts skimmed. Ask yourself: "Does this student NEED this concept to meet the learning objective, or am I adding it because it's interesting?" If the answer is the latter, skip it or mention it in 1 sentence at most.
+- Document your full analysis (motivation, ZPD, depth decisions) in the persona_analysis field — the downstream steps depend on it.
+
+### Step 2: Course Architecture
+Design a sequence of teaching segments following a scaffolding approach (shallow → deep):
+- **Hook** (1 segment): An engaging opening that **leads with a pain point or challenge** the student can relate to — a confusing scenario, a common mistake, or a "what would you do?" moment. Within the first 30 seconds, deliver a clear learning promise: "By the end of this lesson, you'll be able to..."
+- **Introduction** (1-2 segments): Background context, why this topic matters, roadmap of the lesson.
+- **Core Concepts** (3-6 segments): Main ideas broken down step by step. Complex concepts should span multiple segments.
+- **Common Trap** (1-2 segments, MANDATORY): At least ONE segment dedicated to a common misconception or mistake students make about this topic. This MUST be a standalone segment — not buried inside a Core Concept segment. Label its teaching_phase as "common_trap". Think: "Most students get this wrong because..." or "Here's a trap that catches everyone..."
+- **Worked Example** (1-3 segments): Concrete applications of the concepts taught. Prefer 2-3 focused examples over many shallow ones.
+- **Summary** (1 segment): Recap key takeaways, **connect back to the hook's opening question** (回環結構), suggest next steps.
+
+### Step 2a: Length Control (CRITICAL for Adaptability scoring)
+- **Default target: fill approximately {target_duration_min} minutes at ~150 words per minute.** Do not pad or repeat.
+- **Only scale DOWN if the student persona explicitly describes low focus / short attention span.** If the persona does not flag focus as a concern, plan a lesson that fully uses the target duration — content depth is our strength.
+- **When scaling down, priority order is strict**:
+  1. **MUST COVER**: Every concept named in the topic title must still be taught. "Shallower" is acceptable, "skipped" is not. If the title says "A and B", both A and B appear as taught concepts.
+  2. **MUST KEEP**: Core concepts from the learning objective, at least one worked example, and the common-trap / misconception segment.
+  3. **TRIM (in order)**: redundant explanations, multiple similar examples, extended real-world tangents, preview of future topics.
+- Principle: Every concept must still be taught — we can teach it shallower, but never skip it entirely.
+- **Depth over breadth** (within the guaranteed coverage): Teach the required concepts deeply rather than cramming bonus material. If you have too many bonus extensions, drop them.
+- **Extensions go last**: If you want to mention related topics, real-world applications, or "what comes next", put them in the Summary segment — do NOT insert them mid-lesson where they break the main teaching flow.
+{low_focus_rule}
+
+### Step 2b: Topic Coverage Self-Check (CRITICAL for Accuracy scoring)
+Before finalizing your outline, verify COMPLETE topic coverage:
+1. **Parse the topic title**: Split it into ALL distinct concepts (e.g., "Kinetic & Static Friction" → two concepts: kinetic friction AND static friction; "Simple & Physical Pendulums" → simple pendulum AND physical pendulum).
+2. **Cross-check**: Ensure EVERY concept from the title appears as a key_concept in at least one sequence. If the title says "A and B", you MUST teach BOTH A and B — not just one.
+3. **Fix gaps**: If any concept is missing, add or restructure sequences to cover it. Omitting a concept listed in the title will result in an Accuracy score of 1/5.
+
+### Step 3: Fact Verification & Sources
+- Use web search to verify any specific facts, dates, statistics, or formulas you plan to include.
+- Use code execution to verify any mathematical calculations or derivations.
+- Do NOT include anything you cannot verify.
+- **Record all sources** you consulted during verification in the `references` field.
+
+### Course Length
+- Decide the total number of segments based on topic complexity and student level.
+- Aim for {target_duration_min} minutes total video length.
+- Each segment ≈ 1-3 minutes of narration.
+
+### Output Format
+Respond with a valid JSON object (no markdown fences, no extra text):
+
+{{
+  "course_topic": "Concise topic title",
+  "target_audience": "One sentence describing the target learner",
+  "subject": "one of: physics, math, biology, cs, other — pick the closest academic discipline (e.g. trigonometry/calculus/statistics → math, circuits/thermodynamics → physics, genetics/ecology → biology, algorithms/AI → cs). Use 'other' only when no discipline fits.",
+  "learning_objectives": [
+    "By the end, the learner can..."
+  ],
+  "scaffolding_strategy": "Brief description of your pedagogical approach for this specific student",
+  "persona_analysis": {{
+    "prior_knowledge": "What the student likely already knows",
+    "knowledge_gaps": "What the student needs to learn",
+    "depth_decisions": "What to emphasize vs. cover lightly vs. skip"
+  }},
+  "sequences": [
+    {{
+      "sequence_id": 1,
+      "title": "Segment title",
+      "teaching_phase": "hook",
+      "objectives": ["What this segment achieves"],
+      "key_concepts": ["Concept 1", "Concept 2"],
+      "visual_strategy": "What type of visual would work best (bullets, diagram, code, equation, comparison, timeline)",
+      "estimated_duration_min": 1.0
+    }}
+  ],
+  "references": [
+    "Source Name — URL or description (what fact it verifies)"
+  ]
+}}
+
+Generate the course outline now.
